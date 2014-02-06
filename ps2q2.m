@@ -41,6 +41,7 @@ end
   end
 end
 disp(size(x2));
+% initializes the measurement matrix to the centered data
 measurement = zeros(size(x2)(2), 4);
 for i = 1 : 2
   for j = 1 : size(x2)(2)
@@ -48,19 +49,20 @@ for i = 1 : 2
     measurement(j,i+2) = x2centered(i,j);
   end
 end
-
+% performs svd on the measurement matrix, and trims to what we want
 [U S V] = svd(transpose(measurement));
 VT = transpose(V);
 U3 = U(:,1:3);
 S3 = S(1:3,1:3);
 V3 = VT(1:3,:);
+% nicer names
 motion = U3;
 structure = S3*V3;
-
+% the ground truth plot
 plot3(pts3d(1,:),pts3d(2,:),pts3d(3,:),'.');
 axis equal;
 title("Ground truth");
-
+% plot of the data we just generated. we see that there's just scaling and rotation off.
 plot3(structure(1,:),structure(2,:),structure(3,:),'.');
 axis equal;
 title("Structure");
